@@ -1,0 +1,153 @@
+.message-list-wrap {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.message-list {
+  flex: 1;
+  min-height: 0;
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow: auto;
+}
+
+.empty-state {
+  margin: auto;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.empty-state p {
+  margin: 0 0 8px;
+  font-size: 1.15rem;
+  color: var(--text-strong);
+}
+
+.message-row {
+  display: flex;
+}
+
+.message-row.incoming {
+  justify-content: flex-start;
+}
+
+.message-row.outgoing {
+  justify-content: flex-end;
+}
+
+.message-bubble {
+  max-width: min(75%, 420px);
+  border-radius: 20px;
+  padding: 12px 14px 8px;
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06);
+}
+
+.message-row.incoming .message-bubble {
+  background: var(--bubble-in-bg);
+  border-top-left-radius: 6px;
+}
+
+.message-row.outgoing .message-bubble {
+  background: linear-gradient(135deg, #2d6cdf 0%, #4f8cff 100%);
+  color: white;
+  border-top-right-radius: 6px;
+}
+
+.message-bubble p {
+  margin: 0;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.message-bubble time {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.7rem;
+  opacity: 0.8;
+}
+.message-row.outgoing .message-bubble.failed {
+  background: #b42318;
+}
+
+.message-failure {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.35);
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+.message-failure-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.message-failure-actions button {
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 999px;
+  padding: 4px 12px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.message-failure-actions button:hover,
+.message-failure-actions button:focus-visible {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.scroll-down-button {
+  position: absolute;
+  right: 22px;
+  bottom: 14px;
+  border: none;
+  border-radius: 999px;
+  padding: 8px 14px;
+  background: #2d6cdf;
+  color: white;
+  font: inherit;
+  font-size: 0.85rem;
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.2);
+  cursor: pointer;
+}
+
+.message-group {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.day-separator {
+  align-self: center;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--chip-bg);
+  color: var(--chip-text);
+  font-size: 0.75rem;
+}
+
+.status-icon {
+  margin-left: 6px;
+  font-weight: 700;
+}
+
+.empty-steps {
+  display: inline-block;
+  margin: 8px 0 0;
+  padding-left: 22px;
+  text-align: left;
+  line-height: 1.9;
+}
+
+.empty-steps li.done {
+  color: #16a34a;
+  text-decoration: line-through;
+}

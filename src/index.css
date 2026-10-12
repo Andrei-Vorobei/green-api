@@ -1,0 +1,90 @@
+:root {
+  --page-bg: linear-gradient(135deg, #f5f7fb 0%, #e7edf9 100%);
+  --card-bg: rgba(255, 255, 255, 0.92);
+  --chat-bg: #f3f6fb;
+  --header-bg: rgba(255, 255, 255, 0.8);
+  --border: rgba(15, 23, 42, 0.08);
+  --text: #0f172a;
+  --text-strong: #1f2937;
+  --text-muted: #6b7280;
+  --input-bg: #f8fafc;
+  --input-border: rgba(148, 163, 184, 0.5);
+  --bubble-in-bg: #ffffff;
+  --bubble-in-text: #0f172a;
+  --chip-bg: rgba(15, 23, 42, 0.08);
+  --chip-text: #475569;
+  --toast-bg: #fff1f0;
+  --toast-border: rgba(239, 68, 68, 0.35);
+  --toast-text: #b91c1c;
+  color-scheme: light;
+  font-family: Inter, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--text);
+  background: #eef4ff;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+:root[data-theme='dark'] {
+  --page-bg: linear-gradient(135deg, #0b1120 0%, #111a2e 100%);
+  --card-bg: rgba(17, 24, 39, 0.92);
+  --chat-bg: #0f172a;
+  --header-bg: rgba(17, 24, 39, 0.85);
+  --border: rgba(148, 163, 184, 0.18);
+  --text: #e5ecf9;
+  --text-strong: #f1f5f9;
+  --text-muted: #94a3b8;
+  --input-bg: #1e293b;
+  --input-border: rgba(148, 163, 184, 0.35);
+  --bubble-in-bg: #1e293b;
+  --bubble-in-text: #e5ecf9;
+  --chip-bg: rgba(148, 163, 184, 0.18);
+  --chip-text: #cbd5e1;
+  --toast-bg: #3b1219;
+  --toast-border: rgba(248, 113, 113, 0.45);
+  --toast-text: #fecaca;
+  color-scheme: dark;
+  background: #0b1120;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+  width: 100%;
+}
+
+body {
+  min-height: 100vh;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button {
+  border: none;
+}
+
+/* Видимый фокус для клавиатурной навигации */
+:focus-visible {
+  outline: 2px solid #60a5fa;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+}

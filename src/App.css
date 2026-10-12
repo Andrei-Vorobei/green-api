@@ -1,0 +1,43 @@
+.app-shell {
+  width: 100%;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--page-bg);
+  padding: 32px;
+  box-sizing: border-box;
+}
+
+.app-card {
+  width: min(1100px, 100%);
+  height: min(820px, calc(100dvh - 64px));
+  min-height: 560px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  display: grid;
+  grid-template-columns: 360px minmax(0, 1fr);
+  overflow: hidden;
+  box-shadow: 0 24px 80px rgba(31, 41, 55, 0.1);
+}
+
+/* Мобильный режим: показываем либо список чатов, либо диалог */
+@media (max-width: 860px) {
+  .app-shell {
+    padding: 0;
+  }
+
+  .app-card {
+    height: 100dvh;
+    min-height: 0;
+    border-radius: 0;
+    border: none;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .app-card.view-list .chat-panel,
+  .app-card.view-chat .sidebar {
+    display: none;
+  }
+}
