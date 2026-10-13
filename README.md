@@ -18,7 +18,7 @@ npm run dev
 
 Откройте адрес, который выведет Vite (обычно `http://localhost:5173`; если порт занят, Vite возьмёт следующий свободный, например `5174`).
 
-1. Введите `idInstance` и `apiTokenInstance` (поле `apiUrl` можно оставить пустым) и нажмите **Подключиться**.
+1. Введите `idInstance` и `apiTokenInstance` и нажмите **Подключиться**. Адрес API задан константой `API_URL` в `src/config.ts`.
 2. Введите номер получателя с кодом страны и нажмите **Создать чат**.
 3. Пишите сообщения. Входящие появляются автоматически.
 
@@ -62,7 +62,6 @@ npm run dev
 9. [Утилиты](#9-утилиты)
 10. [Сценарии работы пошагово](#10-сценарии-работы-пошагово)
 11. [Ограничения и известные особенности](#11-ограничения-и-известные-особенности)
-12. [Вопросы для самопроверки](#12-вопросы-для-самопроверки)
 
 ---
 
@@ -79,7 +78,7 @@ npm run dev
 Формат URL любого метода Green-API:
 
 ```
-{apiUrl}/waInstance{idInstance}/{метод}/{apiTokenInstance}
+{API_URL}/waInstance{idInstance}/{метод}/{apiTokenInstance}
 ```
 
 ---
@@ -117,7 +116,7 @@ src/
 
 ```
             ┌──────────────────────── App.tsx ────────────────────────┐
-            │ состояние: credentials, apiUrl, idInstanceInput,        │
+            │ состояние: credentials, idInstanceInput,        │
             │ tokenInput, phone, draft, messages, error,              │
             │ isSending, activeChat                                   │
             └───────┬──────────────────────────────┬──────────────────┘
@@ -148,13 +147,9 @@ src/
 
 Обрезает пробелы и префикс `waInstance` (если пользователь вставил его вместе с номером).
 
-#### `resolveApiBaseUrl(credentials)`
+#### `resolveApiBaseUrl()`
 
-Определяет базовый адрес:
-
-1. Если поле `apiUrl` заполнено — используется оно (добавляется `https://`, удаляется хвост `/waInstance...`).
-2. Иначе берутся первые 4 цифры `idInstance` → `https://7201.api.green-api.com`. Это важно: общий `api.green-api.com` у этого инстанса отвечал `ERR_TIMED_OUT`.
-3. Если цифр нет — `https://api.green-api.com`.
+Возвращает константу `API_URL` из `src/config.ts` (`https://7201.api.green-api.com`). Поля `apiUrl` в форме нет: чтобы работать с другим хостом, измените константу. Общий `api.green-api.com` у этого инстанса отвечал `ERR_TIMED_OUT`.
 
 #### `getApiUrl(credentials, method, suffix?)`
 
@@ -233,7 +228,7 @@ useGreenApiPolling({ credentials, onIncomingMessage(chatKey, message), onError, 
 | Состояние | Смысл |
 | --- | --- |
 | `credentials` | **применённые** данные подключения (по ним идут запросы) |
-| `apiUrl`, `idInstanceInput`, `tokenInput` | содержимое полей формы (ещё не применено) |
+| `idInstanceInput`, `tokenInput` | содержимое полей формы (ещё не применено) |
 | `phone` | поле ввода номера получателя (в поле показывается с маской) |
 | `activeChat` | номер открытого чата (только цифры) |
 | `mobileView` | `'list'` или `'chat'`: что показывать на узком экране |
@@ -251,7 +246,7 @@ useGreenApiPolling({ credentials, onIncomingMessage(chatKey, message), onError, 
 
 #### Сохранение в localStorage
 
-Эффект записывает `apiUrl`, `idInstance`, токен при каждом изменении полей, а `handleLogin` сохраняет очищенные значения ещё раз при подключении. При старте `useState(readStoredCredentials)` заполняет поля, поэтому вводить данные заново не нужно.
+Эффект записывает `idInstance` и токен при каждом изменении полей, а `handleLogin` сохраняет очищенные значения ещё раз при подключении. При старте сохранённые значения подставляются в форму, но подключение не восстанавливается: нужно нажать «Подключиться».
 
 #### `handleLogin`
 
@@ -322,7 +317,7 @@ useGreenApiPolling({ credentials, onIncomingMessage(chatKey, message), onError, 
 
 - `Message` — `{ id, text, direction: 'incoming' | 'outgoing', timestamp, status?: 'sending' | 'sent' | 'failed', error?: string }`.
 - `ChatSummary` — `{ id, lastText, lastTimestamp, hasFailed }` для списка чатов.
-- `Credentials` — `{ apiUrl, idInstance, apiTokenInstance }`.
+- `Credentials` — `{ idInstance, apiTokenInstance }`.
 - `ConnectionStatus` — `'offline' | 'connected' | 'ready'`.
 - `StateInstanceResponse` — ответ `getStateInstance`.
 - `NotificationPayload` / `NotificationBody` — ответ `receiveNotification`: `receiptId`, `body.typeWebhook`, `body.timestamp`, `body.idMessage`, `body.senderData`, `body.messageData`.
@@ -370,7 +365,7 @@ useGreenApiPolling({ credentials, onIncomingMessage(chatKey, message), onError, 
 
 #### Повторный визит
 
-`readStoredCredentials` подставляет данные, `credentials` сразу валидны, `isConfigured = true`.
+`readStoredCredentials` подставляет данные в поля формы; подключение не восстанавливается, пока не нажата «Подключиться» (`isConfigured = false`).
 
 ---
 
@@ -386,4 +381,3 @@ useGreenApiPolling({ credentials, onIncomingMessage(chatKey, message), onError, 
 - **Настройки применяются с задержкой** около минуты.
 - **Расширения браузера** могут писать ошибки в консоль (например, `PublicKeyCredential is not defined`) — к приложению они не относятся.
 - **React Compiler** включён (`babel-plugin-react-compiler`), поэтому ручная мемоизация почти не используется.
-

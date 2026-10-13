@@ -10,7 +10,6 @@ type SidebarProps = {
   instanceState: string;
   theme: Theme;
   onToggleTheme: () => void;
-  apiUrl: string;
   idInstance: string;
   apiTokenInstance: string;
   phone: string;
@@ -19,7 +18,6 @@ type SidebarProps = {
   chats: ChatSummary[];
   onSelectChat: (chatKey: string) => void;
   onDeleteChat: (chatKey: string) => void;
-  onApiUrlChange: (value: string) => void;
   onIdInstanceChange: (value: string) => void;
   onApiTokenInstanceChange: (value: string) => void;
   onPhoneChange: (value: string) => void;
@@ -33,7 +31,6 @@ export function Sidebar({
   instanceState,
   theme,
   onToggleTheme,
-  apiUrl,
   idInstance,
   apiTokenInstance,
   phone,
@@ -42,7 +39,6 @@ export function Sidebar({
   chats,
   onSelectChat,
   onDeleteChat,
-  onApiUrlChange,
   onIdInstanceChange,
   onApiTokenInstanceChange,
   onPhoneChange,
@@ -88,16 +84,6 @@ export function Sidebar({
         </div>
       ) : (
         <form className="login-form" onSubmit={onLogin}>
-          <label>
-            <span>apiUrl</span>
-            <input
-              type="text"
-              value={apiUrl}
-              onChange={(event) => onApiUrlChange(event.target.value)}
-              placeholder="https://7201.api.green-api.com"
-            />
-          </label>
-
           <label>
             <span>idInstance</span>
             <input

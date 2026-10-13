@@ -1,3 +1,4 @@
+import { API_URL } from '../config';
 import type {
   CheckWhatsappResponse,
   Credentials,
@@ -11,28 +12,10 @@ export const cleanInstanceId = (idInstance: string): string => {
   return idInstance.trim().replace(/^waInstance/i, '');
 };
 
-export const resolveApiBaseUrl = (credentials: Credentials): string => {
-  const rawApiUrl = credentials.apiUrl.trim();
-  if (rawApiUrl) {
-    let url = rawApiUrl.replace(/\/+$/, '');
-    if (!/^https?:\/\//i.test(url)) {
-      url = 'https://' + url;
-    }
-    url = url.replace(/\/waInstance.*$/i, '');
-    return url;
-  }
-
-  const cleanId = cleanInstanceId(credentials.idInstance);
-  const hostPrefix = cleanId.slice(0, 4);
-  if (/^\d{4}$/.test(hostPrefix)) {
-    return 'https://' + hostPrefix + '.api.green-api.com';
-  }
-
-  return 'https://api.green-api.com';
-};
+export const resolveApiBaseUrl = (): string => API_URL;
 
 export const getApiUrl = (credentials: Credentials, method: string, suffix = ''): string => {
-  const baseUrl = resolveApiBaseUrl(credentials);
+  const baseUrl = resolveApiBaseUrl();
   const idInstance = cleanInstanceId(credentials.idInstance);
   const token = credentials.apiTokenInstance.trim();
   const suffixPart = suffix ? '/' + encodeURIComponent(suffix) : '';

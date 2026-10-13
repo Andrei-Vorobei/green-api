@@ -4,23 +4,22 @@ export const STORAGE_KEY = 'green-api-credentials';
 
 export const readStoredCredentials = (): Credentials => {
   if (typeof window === 'undefined') {
-    return { apiUrl: '', idInstance: '', apiTokenInstance: '' };
+    return { idInstance: '', apiTokenInstance: '' };
   }
 
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) {
-      return { apiUrl: '', idInstance: '', apiTokenInstance: '' };
+      return { idInstance: '', apiTokenInstance: '' };
     }
 
     const parsed = JSON.parse(raw) as Partial<Credentials>;
     return {
-      apiUrl: parsed.apiUrl ?? '',
       idInstance: parsed.idInstance ?? '',
       apiTokenInstance: parsed.apiTokenInstance ?? '',
     };
   } catch {
-    return { apiUrl: '', idInstance: '', apiTokenInstance: '' };
+    return { idInstance: '', apiTokenInstance: '' };
   }
 };
 
@@ -74,7 +73,7 @@ export const clearStoredChats = (): void => {
 
 export const saveStoredCredentials = (credentials: Credentials): void => {
   if (typeof window === 'undefined') return;
-  if (credentials.apiUrl || credentials.idInstance || credentials.apiTokenInstance) {
+  if (credentials.idInstance || credentials.apiTokenInstance) {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(credentials));
   } else {
     window.localStorage.removeItem(STORAGE_KEY);

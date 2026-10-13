@@ -21,12 +21,10 @@ function App() {
   // Активное подключение стартует пустым: после перезагрузки нужно нажать «Подключиться».
   // Сохранённые данные только подставляются в форму
   const [credentials, setCredentials] = useState<Credentials>({
-    apiUrl: '',
     idInstance: '',
     apiTokenInstance: '',
   });
   const [stored] = useState(readStoredCredentials);
-  const [apiUrl, setApiUrl] = useState(stored.apiUrl);
   const [idInstanceInput, setIdInstanceInput] = useState(stored.idInstance);
   const [tokenInput, setTokenInput] = useState(stored.apiTokenInstance);
   const [phone, setPhone] = useState('');
@@ -54,11 +52,10 @@ function App() {
   // Поля формы сохраняются при каждом изменении и при подключении
   useEffect(() => {
     saveStoredCredentials({
-      apiUrl,
       idInstance: idInstanceInput,
       apiTokenInstance: tokenInput,
     });
-  }, [apiUrl, idInstanceInput, tokenInput]);
+  }, [idInstanceInput, tokenInput]);
 
   useEffect(() => {
     saveStoredChats(chats);
@@ -138,7 +135,6 @@ function App() {
     }
 
     const nextCredentials: Credentials = {
-      apiUrl: apiUrl.trim(),
       idInstance: cleanId,
       apiTokenInstance: cleanToken,
     };
@@ -174,7 +170,7 @@ function App() {
     } catch (checkError) {
       console.error('[Green-API] Connection check failed', checkError);
       // Форма остаётся открытой, чтобы можно было поправить данные
-      setCredentials({ apiUrl: '', idInstance: '', apiTokenInstance: '' });
+      setCredentials({ idInstance: '', apiTokenInstance: '' });
       setInstanceState('');
       setError(
         checkError instanceof Error && checkError.message.includes('HTTP 429')
@@ -286,7 +282,7 @@ function App() {
 
   const handleLogout = () => {
     setInstanceState('');
-    setCredentials({ apiUrl: '', idInstance: '', apiTokenInstance: '' });
+    setCredentials({ idInstance: '', apiTokenInstance: '' });
     setActiveChat('');
     setMobileView('list');
     setError('');
@@ -301,7 +297,6 @@ function App() {
           instanceState={instanceState}
           theme={theme}
           onToggleTheme={toggleTheme}
-          apiUrl={apiUrl}
           idInstance={idInstanceInput}
           apiTokenInstance={tokenInput}
           phone={phone}
@@ -310,7 +305,6 @@ function App() {
           chats={chatSummaries}
           onSelectChat={handleSelectChat}
           onDeleteChat={handleDeleteChat}
-          onApiUrlChange={setApiUrl}
           onIdInstanceChange={setIdInstanceInput}
           onApiTokenInstanceChange={setTokenInput}
           onPhoneChange={setPhone}
