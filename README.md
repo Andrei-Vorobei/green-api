@@ -18,7 +18,7 @@ npm run dev
 
 Откройте адрес, который выведет Vite (обычно `http://localhost:5173`; если порт занят, Vite возьмёт следующий свободный, например `5174`).
 
-1. Введите `idInstance` и `apiTokenInstance` и нажмите **Подключиться**. Адрес API задан константой `API_URL` в `src/config.ts`.
+1. Введите `idInstance` и `apiTokenInstance` и нажмите **Подключиться**. Поле `apiUrl` по умолчанию заполнено значением `API_URL` из `src/config.ts`; его можно изменить.
 2. Введите номер получателя с кодом страны и нажмите **Создать чат**.
 3. Пишите сообщения. Входящие появляются автоматически.
 
@@ -78,7 +78,7 @@ npm run dev
 Формат URL любого метода Green-API:
 
 ```
-{API_URL}/waInstance{idInstance}/{метод}/{apiTokenInstance}
+{apiUrl}/waInstance{idInstance}/{метод}/{apiTokenInstance}
 ```
 
 ---
@@ -116,7 +116,7 @@ src/
 
 ```
             ┌──────────────────────── App.tsx ────────────────────────┐
-            │ состояние: credentials, idInstanceInput,        │
+            │ состояние: credentials, apiUrl, idInstanceInput,        │
             │ tokenInput, phone, draft, messages, error,              │
             │ isSending, activeChat                                   │
             └───────┬──────────────────────────────┬──────────────────┘
@@ -147,9 +147,9 @@ src/
 
 Обрезает пробелы и префикс `waInstance` (если пользователь вставил его вместе с номером).
 
-#### `resolveApiBaseUrl()`
+#### `resolveApiBaseUrl(credentials)`
 
-Возвращает константу `API_URL` из `src/config.ts` (`https://7201.api.green-api.com`). Поля `apiUrl` в форме нет: чтобы работать с другим хостом, измените константу. Общий `api.green-api.com` у этого инстанса отвечал `ERR_TIMED_OUT`.
+Определяет базовый адрес: если поле `apiUrl` заполнено, используется оно (добавляется `https://`, удаляется хвост `/waInstance...`), иначе константа `API_URL` из `src/config.ts` (`https://7201.api.green-api.com`). Общий `api.green-api.com` у этого инстанса отвечал `ERR_TIMED_OUT`, поэтому для другого инстанса укажите его хост в поле или поменяйте константу.
 
 #### `getApiUrl(credentials, method, suffix?)`
 
@@ -228,7 +228,7 @@ useGreenApiPolling({ credentials, onIncomingMessage(chatKey, message), onError, 
 | Состояние | Смысл |
 | --- | --- |
 | `credentials` | **применённые** данные подключения (по ним идут запросы) |
-| `idInstanceInput`, `tokenInput` | содержимое полей формы (ещё не применено) |
+| `apiUrl`, `idInstanceInput`, `tokenInput` | содержимое полей формы (ещё не применено) |
 | `phone` | поле ввода номера получателя (в поле показывается с маской) |
 | `activeChat` | номер открытого чата (только цифры) |
 | `mobileView` | `'list'` или `'chat'`: что показывать на узком экране |
@@ -246,7 +246,7 @@ useGreenApiPolling({ credentials, onIncomingMessage(chatKey, message), onError, 
 
 #### Сохранение в localStorage
 
-Эффект записывает `idInstance` и токен при каждом изменении полей, а `handleLogin` сохраняет очищенные значения ещё раз при подключении. При старте сохранённые значения подставляются в форму, но подключение не восстанавливается: нужно нажать «Подключиться».
+Эффект записывает `apiUrl`, `idInstance` и токен при каждом изменении полей, а `handleLogin` сохраняет очищенные значения ещё раз при подключении. При старте сохранённые значения подставляются в форму, но подключение не восстанавливается: нужно нажать «Подключиться».
 
 #### `handleLogin`
 
@@ -317,7 +317,7 @@ useGreenApiPolling({ credentials, onIncomingMessage(chatKey, message), onError, 
 
 - `Message` — `{ id, text, direction: 'incoming' | 'outgoing', timestamp, status?: 'sending' | 'sent' | 'failed', error?: string }`.
 - `ChatSummary` — `{ id, lastText, lastTimestamp, hasFailed }` для списка чатов.
-- `Credentials` — `{ idInstance, apiTokenInstance }`.
+- `Credentials` — `{ apiUrl, idInstance, apiTokenInstance }`.
 - `ConnectionStatus` — `'offline' | 'connected' | 'ready'`.
 - `StateInstanceResponse` — ответ `getStateInstance`.
 - `NotificationPayload` / `NotificationBody` — ответ `receiveNotification`: `receiptId`, `body.typeWebhook`, `body.timestamp`, `body.idMessage`, `body.senderData`, `body.messageData`.

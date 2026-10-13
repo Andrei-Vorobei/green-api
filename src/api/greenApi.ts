@@ -12,10 +12,16 @@ export const cleanInstanceId = (idInstance: string): string => {
   return idInstance.trim().replace(/^waInstance/i, '');
 };
 
-export const resolveApiBaseUrl = (): string => API_URL;
+export const resolveApiBaseUrl = (credentials: Credentials): string => {
+  const rawApiUrl = credentials.apiUrl.trim();
+  if (!rawApiUrl) return API_URL;
+
+  const url = rawApiUrl.replace(/\/+$/, '');
+  return (/^https?:\/\//i.test(url) ? url : 'https://' + url).replace(/\/waInstance.*$/i, '');
+};
 
 export const getApiUrl = (credentials: Credentials, method: string, suffix = ''): string => {
-  const baseUrl = resolveApiBaseUrl();
+  const baseUrl = resolveApiBaseUrl(credentials);
   const idInstance = cleanInstanceId(credentials.idInstance);
   const token = credentials.apiTokenInstance.trim();
   const suffixPart = suffix ? '/' + encodeURIComponent(suffix) : '';

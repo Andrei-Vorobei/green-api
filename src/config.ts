@@ -1,2 +1,2 @@
-// Базовый URL Green-API для инстанса (хост совпадает с первыми цифрами idInstance)
+// Адрес Green-API по умолчанию, используется, когда поле apiUrl пустое
 export const API_URL = 'https://7201.api.green-api.com';
