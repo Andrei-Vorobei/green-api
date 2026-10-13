@@ -5,7 +5,6 @@ import { normalizePhone } from '../utils/phone';
 
 type UseGreenApiPollingOptions = {
   credentials: Credentials;
-  enabled: boolean;
   onIncomingMessage: (chatKey: string, message: Message) => void;
   onError: (errorText: string) => void;
   onClearError: () => void;
@@ -30,7 +29,6 @@ const extractMessageText = (body?: NotificationBody): string => {
 
 export const useGreenApiPolling = ({
   credentials,
-  enabled,
   onIncomingMessage,
   onError,
   onClearError,
@@ -42,7 +40,7 @@ export const useGreenApiPolling = ({
   });
 
   useEffect(() => {
-    if (!enabled || !credentials.idInstance || !credentials.apiTokenInstance) {
+    if (!credentials.idInstance || !credentials.apiTokenInstance) {
       return;
     }
 
@@ -123,5 +121,5 @@ export const useGreenApiPolling = ({
         window.clearTimeout(timer);
       }
     };
-  }, [credentials, enabled]);
+  }, [credentials]);
 };

@@ -11,6 +11,7 @@ export type Message = {
 
 export type ChatSummary = {
   id: string;
+  nickname: string;
   lastText: string;
   lastTimestamp: number;
   hasFailed: boolean;

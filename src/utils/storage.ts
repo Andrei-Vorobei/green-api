@@ -80,3 +80,34 @@ export const saveStoredCredentials = (credentials: Credentials): void => {
     window.localStorage.removeItem(STORAGE_KEY);
   }
 };
+
+export type NicknamesMap = Record<string, string>;
+
+const NICKNAMES_KEY = 'green-api-nicknames';
+
+export const readStoredNicknames = (): NicknamesMap => {
+  if (typeof window === 'undefined') return {};
+
+  try {
+    const raw = window.localStorage.getItem(NICKNAMES_KEY);
+    if (!raw) return {};
+    const parsed = JSON.parse(raw) as NicknamesMap;
+    const result: NicknamesMap = {};
+    for (const [key, value] of Object.entries(parsed)) {
+      if (typeof value === 'string' && value) result[key] = value;
+    }
+    return result;
+  } catch {
+    return {};
+  }
+};
+
+export const saveStoredNicknames = (nicknames: NicknamesMap): void => {
+  if (typeof window === 'undefined') return;
+
+  try {
+    window.localStorage.setItem(NICKNAMES_KEY, JSON.stringify(nicknames));
+  } catch {
+    // переполнение хранилища не должно ломать приложение
+  }
+};

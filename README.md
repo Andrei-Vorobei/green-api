@@ -19,7 +19,7 @@ npm run dev
 Откройте адрес, который выведет Vite (обычно `http://localhost:5173`; если порт занят, Vite возьмёт следующий свободный, например `5174`).
 
 1. Введите `idInstance` и `apiTokenInstance` и нажмите **Подключиться**. Поле `apiUrl` по умолчанию заполнено значением `API_URL` из `src/config.ts`; его можно изменить.
-2. Введите номер получателя с кодом страны и нажмите **Создать чат**.
+2. Введите номер получателя с кодом страны и нажмите **Добавить чат**. Форма доступна и после подключения, так что новые чаты можно добавлять в любой момент.
 3. Пишите сообщения. Входящие появляются автоматически.
 
 Данные подключения сохраняются в `localStorage` и подставляются в форму после перезагрузки, но автоматически чат не подключается: нужно снова нажать **Подключиться**.
@@ -38,7 +38,7 @@ npm run dev
 ## Краткое описание
 
 - Подключение по `idInstance` и `apiTokenInstance`, настройки инстанса для приёма входящих включаются автоматически.
-- Несколько чатов: список в сайдбаре, история хранится в `localStorage` (до 200 сообщений на чат).
+- Несколько чатов: список в сайдбаре, история хранится в `localStorage` (до 200 сообщений на чат). Чат можно переименовать (✎ в шапке диалога, до 20 символов): имя показывается основным шрифтом, номер мелким.
 - Отправка текста со статусами «отправляется / отправлено / не отправлено», повтор неотправленных.
 - Приём входящих через `receiveNotification` с подтверждением `deleteNotification`.
 - Маска и проверка номера, Enter отправляет, Shift+Enter переносит строку.
@@ -72,7 +72,7 @@ npm run dev
 | Аутентификация | `idInstance` + `apiTokenInstance` из личного кабинета Green-API |
 | Отправка | `POST .../sendMessage/{token}` с `{ chatId, message }` |
 | Приём | long-polling: `GET .../receiveNotification/{token}?receiveTimeout=5`, затем `DELETE .../deleteNotification/{token}/{receiptId}` |
-| Хранение данных | `localStorage`: данные подключения (`green-api-credentials`), история чатов (`green-api-chats`), тема (`green-api-theme`) |
+| Хранение данных | `localStorage`: данные подключения (`green-api-credentials`), история чатов (`green-api-chats`), тема (`green-api-theme`), имена чатов (`green-api-nicknames`) |
 | Состояние | `useState` в `App.tsx`, без Redux/Context |
 
 Формат URL любого метода Green-API:
@@ -268,6 +268,10 @@ useGreenApiPolling({ credentials, onIncomingMessage(chatKey, message), onError, 
 
 Повтор снова вызывает `deliverMessage` для того же сообщения (статус `sending`). Удаление убирает сообщение из чата.
 
+#### `handleRenameChat`
+
+Нормализует имя (`normalizeNickname`) и сохраняет его в `nicknames` (`Record<номер, имя>`, ключ `green-api-nicknames`). Пустое имя удаляет ник, и чат снова показывается по номеру. `handleDeleteChat` стирает и ник.
+
 #### `handleSelectChat` / `handleDeleteChat`
 
 Выбор чата делает его активным (и открывает диалог на мобильных). Удаление чата стирает переписку и, если чат был открыт, возвращает к списку.
@@ -311,7 +315,7 @@ useGreenApiPolling({ credentials, onIncomingMessage(chatKey, message), onError, 
 ### 8. Типы — `types/chat.ts`
 
 - `Message` — `{ id, text, direction: 'incoming' | 'outgoing', timestamp, status?: 'sending' | 'sent' | 'failed', error?: string }`.
-- `ChatSummary` — `{ id, lastText, lastTimestamp, hasFailed }` для списка чатов.
+- `ChatSummary` — `{ id, nickname, lastText, lastTimestamp, hasFailed }` для списка чатов.
 - `Credentials` — `{ apiUrl, idInstance, apiTokenInstance }`.
 - `ConnectionStatus` — `'offline' | 'connected' | 'ready'`.
 - `StateInstanceResponse` — ответ `getStateInstance`.
@@ -322,6 +326,10 @@ useGreenApiPolling({ credentials, onIncomingMessage(chatKey, message), onError, 
 ---
 
 ### 9. Утилиты
+
+**`utils/nickname.ts`**
+
+- `NICKNAME_MAX_LENGTH` (20), `normalizeNickname(v)` — схлопывает пробелы, обрезает до лимита, `getAvatarText(chatKey, nickname)` — буквы для аватара (первые две буквы имени или последние две цифры номера).
 
 **`utils/phone.ts`**
 
@@ -348,7 +356,7 @@ useGreenApiPolling({ credentials, onIncomingMessage(chatKey, message), onError, 
 
 1. Пользователь вводит `idInstance` и токен → поля пишутся в `localStorage`.
 2. «Подключиться» → `handleLogin` (настройки, состояние инстанса).
-3. Вводит номер (маска `+7 999 123-45-67`), «Создать чат» → `activeChat` задан, чат появляется в списке; опрос работает для всех номеров с момента подключения.
+3. Вводит номер (маска `+7 999 123-45-67`), «Добавить чат» → `activeChat` задан, чат появляется в списке; опрос работает для всех номеров с момента подключения.
 
 #### Отправка
 

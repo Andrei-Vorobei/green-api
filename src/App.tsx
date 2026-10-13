@@ -13,10 +13,13 @@ import { isValidRecipient, MIN_PHONE_DIGITS, normalizeRecipient, createChatId } 
 import {
   readStoredChats,
   readStoredCredentials,
+  readStoredNicknames,
   saveStoredChats,
   saveStoredCredentials,
+  saveStoredNicknames,
 } from './utils/storage';
-import type { ChatsMap } from './utils/storage';
+import { normalizeNickname } from './utils/nickname';
+import type { ChatsMap, NicknamesMap } from './utils/storage';
 
 function App() {
   // Активное подключение стартует пустым: после перезагрузки нужно нажать «Подключиться».
@@ -33,6 +36,7 @@ function App() {
   const [phone, setPhone] = useState('');
   const [draft, setDraft] = useState('');
   const [chats, setChats] = useState<ChatsMap>(readStoredChats);
+  const [nicknames, setNicknames] = useState<NicknamesMap>(readStoredNicknames);
   const [error, setError] = useState('');
   const [instanceState, setInstanceState] = useState('');
   const [isSending, setIsSending] = useState(false);
@@ -65,6 +69,10 @@ function App() {
     saveStoredChats(chats);
   }, [chats]);
 
+  useEffect(() => {
+    saveStoredNicknames(nicknames);
+  }, [nicknames]);
+
   const addMessage = useCallback((chatKey: string, message: Message) => {
     setChats((previous) => {
       const list = previous[chatKey] ?? [];
@@ -90,13 +98,14 @@ function App() {
           const last = list[list.length - 1];
           return {
             id,
+            nickname: nicknames[id] ?? '',
             lastText: last?.text ?? '',
-            lastTimestamp: last?.timestamp ?? 0,
+            lastTimestamp: last?.timestamp ?? Number.MAX_SAFE_INTEGER,
             hasFailed: list.some((message) => message.status === 'failed'),
           };
         })
         .sort((a, b) => b.lastTimestamp - a.lastTimestamp),
-    [chats],
+    [chats, nicknames],
   );
 
   // Входящие от любого номера попадают в свой чат
@@ -120,8 +129,6 @@ function App() {
 
   useGreenApiPolling({
     credentials,
-    // Приём стартует после подключения и выбора чата (кнопка «Начать чат»)
-    enabled: Boolean(activeChat),
     onIncomingMessage: handleIncomingMessage,
     onError: handlePollingError,
     onClearError: handleClearPollingError,
@@ -193,7 +200,10 @@ function App() {
       return;
     }
 
-    setActiveChat(normalizeRecipient(phone));
+    const chatKey = normalizeRecipient(phone);
+    // Пустой чат сразу попадает в список, даже если сообщений ещё нет
+    setChats((previous) => (chatKey in previous ? previous : { [chatKey]: [], ...previous }));
+    setActiveChat(chatKey);
     setMobileView('chat');
     setPhone('');
     setError('');
@@ -270,7 +280,22 @@ function App() {
     setError('');
   };
 
+  const handleRenameChat = (chatKey: string, value: string) => {
+    const nickname = normalizeNickname(value);
+    setNicknames((previous) => {
+      const next = { ...previous };
+      if (nickname) next[chatKey] = nickname;
+      else delete next[chatKey];
+      return next;
+    });
+  };
+
   const handleDeleteChat = (chatKey: string) => {
+    setNicknames((previous) => {
+      const next = { ...previous };
+      delete next[chatKey];
+      return next;
+    });
     setChats((previous) => {
       const next = { ...previous };
       delete next[chatKey];
@@ -319,6 +344,7 @@ function App() {
 
         <ChatPanel
           activeChat={activeChat}
+          nickname={nicknames[activeChat] ?? ''}
           isConfigured={isConfigured}
           messages={messages}
           draft={draft}
@@ -327,6 +353,7 @@ function App() {
           onSendMessage={() => void handleSendMessage()}
           onRetryMessage={(id) => void handleRetryMessage(id)}
           onDeleteMessage={handleDeleteMessage}
+          onRenameChat={(value) => handleRenameChat(activeChat, value)}
           onBack={() => setMobileView('list')}
         />
       </main>

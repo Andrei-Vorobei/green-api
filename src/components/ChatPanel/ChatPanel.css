@@ -67,3 +67,55 @@
   color: rgba(255, 255, 255, 0.85);
   font-size: 0.8rem;
 }
+.chat-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.chat-title-text {
+  min-width: 0;
+}
+
+.chat-title-text h2,
+.chat-title-text p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nickname-form {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.nickname-form input {
+  width: 12em;
+  max-width: 100%;
+  min-width: 0;
+  padding: 7px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.95);
+  color: #0f172a;
+  font-size: 0.95rem;
+}
+
+.nickname-button {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.nickname-button:hover,
+.nickname-button:focus-visible {
+  background: rgba(255, 255, 255, 0.35);
+}

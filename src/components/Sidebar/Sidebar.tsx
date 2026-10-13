@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { API_URL } from '../../config';
+import { getAvatarText } from '../../utils/nickname';
 import type { ChatSummary, ConnectionStatus } from '../../types/chat';
 import type { Theme } from '../../hooks/useTheme';
 import { isValidRecipient, maskPhone, MIN_PHONE_DIGITS } from '../../utils/phone';
@@ -139,7 +140,7 @@ export function Sidebar({
         </form>
       )}
 
-      {isConfigured && !activeChat && (
+      {isConfigured && (
       <form
         className="contact-form"
         onSubmit={(event) => {
@@ -163,7 +164,7 @@ export function Sidebar({
           С кодом страны, без «+». Минимум {MIN_PHONE_DIGITS} цифр.
         </small>
         <button type="submit" className="primary-button" disabled={!isValidRecipient(phone)}>
-          Создать чат
+          Добавить чат
         </button>
       </form>
       )}
@@ -180,10 +181,14 @@ export function Sidebar({
                   onClick={() => onSelectChat(chat.id)}
                   aria-current={chat.id === activeChat ? 'true' : undefined}
                 >
-                  <span className="chat-list-avatar">{chat.id.slice(-2)}</span>
+                  <span className="chat-list-avatar">{getAvatarText(chat.id, chat.nickname)}</span>
                   <span className="chat-list-body">
-                    <strong>+{chat.id}</strong>
-                    <small>{chat.hasFailed ? '⚠ ' : ''}{chat.lastText || 'Нет сообщений'}</small>
+                    <strong>{chat.nickname || '+' + chat.id}</strong>
+                    <small>
+                      {chat.nickname ? '+' + chat.id + ' · ' : ''}
+                      {chat.hasFailed ? '⚠ ' : ''}
+                      {chat.lastText || 'Нет сообщений'}
+                    </small>
                   </span>
                 </button>
                 <button
