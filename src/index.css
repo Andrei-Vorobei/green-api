@@ -1,5 +1,5 @@
 :root {
-  --page-bg: linear-gradient(135deg, #f5f7fb 0%, #e7edf9 100%);
+  --page-bg: linear-gradient(135deg, #0b1120 0%, #111a2e 100%);
   --card-bg: rgba(255, 255, 255, 0.92);
   --chat-bg: #f3f6fb;
   --header-bg: rgba(255, 255, 255, 0.8);
@@ -21,7 +21,7 @@
   line-height: 1.5;
   font-weight: 400;
   color: var(--text);
-  background: #eef4ff;
+  background: #0b1120;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;

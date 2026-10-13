@@ -343,3 +343,99 @@
   color: #a8b5d5;
   font-size: 0.75rem;
 }
+
+/* Светлая тема: светлый сайдбар */
+:root:not([data-theme='dark']) .sidebar {
+  background: #f8fafc;
+  color: #0f172a;
+  border-right: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+:root:not([data-theme='dark']) .eyebrow {
+  color: #2563eb;
+}
+
+:root:not([data-theme='dark']) .panel-header h1 {
+  color: #0f172a;
+}
+
+:root:not([data-theme='dark']) .status-offline {
+  background: rgba(100, 116, 139, 0.15);
+  color: #475569;
+}
+
+:root:not([data-theme='dark']) .status-connected {
+  background: rgba(34, 197, 94, 0.16);
+  color: #15803d;
+}
+
+:root:not([data-theme='dark']) .status-ready {
+  background: rgba(59, 130, 246, 0.14);
+  color: #1d4ed8;
+}
+
+:root:not([data-theme='dark']) .login-form label,
+:root:not([data-theme='dark']) .contact-form label {
+  color: #334155;
+}
+
+:root:not([data-theme='dark']) .login-form input,
+:root:not([data-theme='dark']) .contact-form input {
+  background: #fff;
+  color: #0f172a;
+  border-color: rgba(148, 163, 184, 0.6);
+}
+
+:root:not([data-theme='dark']) .secondary-button,
+:root:not([data-theme='dark']) .token-toggle,
+:root:not([data-theme='dark']) .theme-toggle {
+  background: rgba(15, 23, 42, 0.06);
+  color: #1f2937;
+}
+
+:root:not([data-theme='dark']) .theme-toggle:hover,
+:root:not([data-theme='dark']) .theme-toggle:focus-visible {
+  background: rgba(15, 23, 42, 0.14);
+}
+
+:root:not([data-theme='dark']) .connection-card {
+  background: #fff;
+  border-color: rgba(15, 23, 42, 0.1);
+}
+
+:root:not([data-theme='dark']) .connection-card-row span,
+:root:not([data-theme='dark']) .chat-list-title,
+:root:not([data-theme='dark']) .chat-list-body small,
+:root:not([data-theme='dark']) .chat-list-delete,
+:root:not([data-theme='dark']) .field-hint {
+  color: #64748b;
+}
+
+:root:not([data-theme='dark']) .chat-list-item {
+  background: #fff;
+  color: #0f172a;
+  border-color: rgba(15, 23, 42, 0.06);
+}
+
+:root:not([data-theme='dark']) .chat-list-item:hover,
+:root:not([data-theme='dark']) .chat-list-item:focus-visible {
+  background: #eef2f7;
+}
+
+:root:not([data-theme='dark']) .chat-list-item.active {
+  border-color: rgba(59, 130, 246, 0.6);
+  background: rgba(59, 130, 246, 0.12);
+}
+
+:root:not([data-theme='dark']) .chat-list-delete:hover,
+:root:not([data-theme='dark']) .chat-list-delete:focus-visible {
+  background: rgba(239, 68, 68, 0.15);
+  color: #b91c1c;
+}
+
+@media (max-width: 860px) {
+  :root:not([data-theme='dark']) .sidebar {
+    border-right: none;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  }
+}
