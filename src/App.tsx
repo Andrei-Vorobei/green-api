@@ -173,7 +173,6 @@ function App() {
         setError('На инстансе действуют временные ограничения WhatsApp.');
       }
     } catch (checkError) {
-      console.error('[Green-API] Connection check failed', checkError);
       // Форма остаётся открытой, чтобы можно было поправить данные
       setCredentials({ apiUrl: '', idInstance: '', apiTokenInstance: '' });
       setInstanceState('');
@@ -207,11 +206,9 @@ function App() {
       if (check && check.existsWhatsapp === false) {
         throw new Error('Этот номер не зарегистрирован в WhatsApp');
       }
-      const response = await sendMessage(credentials, check?.chatId || createChatId(chatKey), text);
-      console.log('[Green-API] Message sent', { idMessage: response?.idMessage });
+      await sendMessage(credentials, check?.chatId || createChatId(chatKey), text);
       patchMessage(chatKey, id, { status: 'sent', error: undefined });
     } catch (requestError) {
-      console.error('[Green-API] Failed to send message', requestError);
       patchMessage(chatKey, id, { status: 'failed', error: describeSendError(requestError) });
     } finally {
       setIsSending(false);

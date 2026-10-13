@@ -28,22 +28,9 @@ export const getApiUrl = (credentials: Credentials, method: string, suffix = '')
   return baseUrl + '/waInstance' + idInstance + '/' + method + '/' + token + suffixPart;
 };
 
-export const getSafeApiUrl = (url: string): string =>
-  url.replace(/(\/(?:receiveNotification|sendMessage|deleteNotification|getStateInstance|getSettings|setSettings|checkWhatsapp)\/)[^/?#]+(?:\/[^/?#]+)?/, '$1[REDACTED]');
-
 export const fetchJson = async <T>(url: string, init?: RequestInit): Promise<T | null> => {
-  const method = init?.method ?? 'GET';
-  const safeUrl = getSafeApiUrl(url);
-  console.log('[Green-API] Request', { method, url: safeUrl });
-
   const response = await fetch(url, init);
   const text = await response.text();
-  console.log('[Green-API] Response', {
-    method,
-    url: safeUrl,
-    status: response.status,
-    statusText: response.statusText,
-  });
 
   if (!response.ok) {
     let errorDetails = '';

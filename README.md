@@ -155,13 +155,8 @@ src/
 
 Собирает полный URL: `base/waInstance{id}/{method}/{token}[/{suffix}]`. `suffix` нужен для `deleteNotification` (там `receiptId` идёт после токена).
 
-#### `getSafeApiUrl(url)`
-
-Заменяет токен на `[REDACTED]` — используется только для логов в консоли.
-
 #### `fetchJson<T>(url, init?)`
 
-- логирует запрос и статус;
 - при `!response.ok` бросает `Error('HTTP <код> <текст>: <описание>')`;
 - описание берётся из `invokeStatus.description` / `correspondentsStatus.description` (так приходит ошибка квоты, HTTP 466), затем из `message`, `error`, `description`, иначе сырой текст;
 - пустое тело или `null` → возвращает `null`.

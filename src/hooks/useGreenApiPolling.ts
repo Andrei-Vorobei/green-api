@@ -68,14 +68,6 @@ export const useGreenApiPolling = ({
           const chatKey = normalizePhone((senderId || chatId).split('@')[0]);
           const isIncomingText = body?.typeWebhook === 'incomingMessageReceived';
 
-          console.log('[Green-API] Notification received', {
-            receiptId: notification.receiptId,
-            typeWebhook: body?.typeWebhook,
-            typeMessage: body?.messageData?.typeMessage,
-            chatId,
-            hasTextMessage: Boolean(incomingText),
-          });
-
           if (incomingText && chatKey && isIncomingText) {
             callbacksRef.current.onIncomingMessage(chatKey, {
               id: String(body?.idMessage ?? notification.receiptId ?? Date.now()),
@@ -101,7 +93,6 @@ export const useGreenApiPolling = ({
         const isRateLimited = requestError instanceof Error && requestError.message.includes('HTTP 429');
         // При превышении лимита запросов ждём дольше, чтобы не усугублять блокировку
         retryDelay = isRateLimited ? 30000 : 5000;
-        console.error('[Green-API] Failed to receive notification', requestError);
 
         let errorMessage = isRateLimited
           ? 'Слишком много запросов к Green-API (429). Повтор через 30 секунд.'
