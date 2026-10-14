@@ -1,0 +1,50 @@
+.connection-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: var(--sb-card-bg);
+  border: 1px solid var(--sb-card-border);
+}
+
+.connection-card-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.connection-card-row div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.connection-card-row span {
+  color: var(--sb-muted);
+  font-size: 0.8rem;
+}
+
+.state-dot {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #94a3b8;
+}
+
+.state-dot.state-authorized {
+  background: #22c55e;
+}
+
+.state-dot.state-starting,
+.state-dot.state-sleepMode,
+.state-dot.state-yellowCard {
+  background: #eab308;
+}
+
+.state-dot.state-notAuthorized,
+.state-dot.state-blocked {
+  background: #ef4444;
+}

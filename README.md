@@ -101,7 +101,12 @@ src/
 │   ├── phone.ts                  нормализация, маска и проверка номера, chatId
 │   └── storage.ts                данные подключения и история чатов в localStorage
 └── components/
-    ├── Sidebar/                  подключение, переключатель темы, создание чата, список чатов
+    ├── Sidebar/                  контейнер сайдбара, выбирает, что показать
+    │   ├── SidebarHeader/        заголовок, переключатель темы, статус подключения
+    │   ├── LoginForm/            apiUrl, idInstance, токен, «Подключиться»
+    │   ├── ConnectionCard/       состояние инстанса и «Выйти»
+    │   ├── AddChatForm/          ввод номера и «Добавить чат»
+    │   └── ChatList/             список чатов, удаление
     ├── ChatPanel/                шапка (кнопка «назад»), список сообщений, поле ввода
     ├── MessageList/              сообщения, разделители дней, статусы, пустые состояния
     ├── Composer/                 поле ввода и кнопка отправки
@@ -290,7 +295,7 @@ useGreenApiPolling({ credentials, onIncomingMessage(chatKey, message), onError, 
 
 | Компонент | Props (основные) | Отвечает за |
 | --- | --- | --- |
-| `Sidebar` | поля формы, `isConfigured`, `instanceState`, `theme`, `chats`, `activeChat`, колбэки | форма подключения, карточка подключённого инстанса (индикатор состояния, «Выйти»), переключатель темы, ввод номера с маской, список чатов |
+| `Sidebar` | поля формы, `isConfigured`, `instanceState`, `theme`, `chats`, `activeChat`, колбэки | тонкий контейнер: до подключения показывает `SidebarHeader` и `LoginForm`, после подключения `SidebarHeader`, `ConnectionCard` (индикатор состояния, «Выйти»), `AddChatForm` (номер с маской) и `ChatList`. Каждая часть лежит в своей подпапке со своим CSS; общие стили полей и кнопок остались в `Sidebar.css` |
 | `ChatPanel` | `activeChat`, `messages`, `draft`, `isSending`, колбэки, `onBack` | шапка чата с кнопкой «назад» (только на мобильных), `MessageList` и `Composer` |
 | `MessageList` | `messages`, `isConfigured`, `hasActiveChat`, `onRetry`, `onDelete` | пузыри, разделители дней, значки статуса, автопрокрутка и кнопка «↓ Вниз», пустые состояния с подсказками |
 | `Composer` | `draft`, `activeChat`, `isSending`, `onDraftChange`, `onSendMessage` | `textarea`: Enter отправляет, Shift+Enter — новая строка |
@@ -300,7 +305,7 @@ useGreenApiPolling({ credentials, onIncomingMessage(chatKey, message), onError, 
 
 #### Тема
 
-Хук `useTheme` возвращает `[theme, toggleTheme]`, пишет `data-theme` на `<html>` и сохраняет выбор в `localStorage` (`green-api-theme`). Без сохранённого выбора берётся системная (`prefers-color-scheme`). Цвета заданы CSS-переменными в `index.css` (`--chat-bg`, `--bubble-in-bg`, `--toast-bg` и т.д.); тёмные значения переопределены в `:root[data-theme='dark']`.
+Хук `useTheme` возвращает `[theme, toggleTheme]`, пишет `data-theme` на `<html>` и сохраняет выбор в `localStorage` (`green-api-theme`). Без сохранённого выбора берётся системная (`prefers-color-scheme`). Цвета заданы CSS-переменными в `index.css` (`--chat-bg`, `--bubble-in-bg`, `--toast-bg` и т.д.); тёмные значения переопределены в `:root[data-theme='dark']`. Цвета сайдбара (`--sb-bg`, `--sb-text`, `--sb-card-bg` и т.д.) заданы так же в начале `Sidebar.css`: светлые значения в `:root`, тёмные в `:root[data-theme='dark']`, а стили компонентов только читают `var(--sb-*)`.
 
 #### Адаптив
 

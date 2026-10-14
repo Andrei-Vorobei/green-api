@@ -1,0 +1,5 @@
+.field-hint {
+  margin-top: -6px;
+  color: var(--sb-muted);
+  font-size: 0.75rem;
+}

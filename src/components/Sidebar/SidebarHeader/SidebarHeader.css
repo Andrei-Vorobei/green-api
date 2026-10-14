@@ -1,0 +1,68 @@
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sb-eyebrow);
+  margin: 0 0 4px;
+}
+
+.panel-header h1 {
+  margin: 0;
+  font-size: 2rem;
+  color: var(--sb-heading);
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.status-offline {
+  background: var(--sb-offline-bg);
+  color: var(--sb-offline-text);
+}
+
+.status-connected {
+  background: var(--sb-connected-bg);
+  color: var(--sb-connected-text);
+}
+
+.status-ready {
+  background: var(--sb-ready-bg);
+  color: var(--sb-ready-text);
+}
+
+.panel-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.theme-toggle {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--sb-btn-bg);
+  color: var(--sb-btn-text);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.theme-toggle:hover,
+.theme-toggle:focus-visible {
+  background: var(--sb-btn-hover-bg);
+}

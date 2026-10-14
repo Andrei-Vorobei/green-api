@@ -1,60 +1,88 @@
+/* Цвета сайдбара: светлые значения по умолчанию, тёмные переопределены ниже */
+:root {
+  --sb-bg: #f8fafc;
+  --sb-text: #0f172a;
+  --sb-heading: #0f172a;
+  --sb-eyebrow: #2563eb;
+  --sb-muted: #64748b;
+  --sb-label: #334155;
+  --sb-edge: rgba(15, 23, 42, 0.08);
+  --sb-edge-side: rgba(15, 23, 42, 0.08);
+
+  --sb-input-bg: #fff;
+  --sb-input-text: #0f172a;
+  --sb-input-border: rgba(148, 163, 184, 0.6);
+
+  --sb-btn-bg: rgba(15, 23, 42, 0.06);
+  --sb-btn-hover-bg: rgba(15, 23, 42, 0.14);
+  --sb-btn-text: #1f2937;
+
+  --sb-card-bg: #fff;
+  --sb-card-border: rgba(15, 23, 42, 0.1);
+
+  --sb-item-bg: #fff;
+  --sb-item-border: rgba(15, 23, 42, 0.06);
+  --sb-item-hover-bg: #eef2f7;
+  --sb-item-active-bg: rgba(59, 130, 246, 0.12);
+  --sb-item-active-border: rgba(59, 130, 246, 0.6);
+  --sb-delete-hover-bg: rgba(239, 68, 68, 0.15);
+  --sb-delete-hover-text: #b91c1c;
+
+  --sb-offline-bg: rgba(100, 116, 139, 0.15);
+  --sb-offline-text: #475569;
+  --sb-connected-bg: rgba(34, 197, 94, 0.16);
+  --sb-connected-text: #15803d;
+  --sb-ready-bg: rgba(59, 130, 246, 0.14);
+  --sb-ready-text: #1d4ed8;
+}
+
+:root[data-theme='dark'] {
+  --sb-bg: #111827;
+  --sb-text: #edf3ff;
+  --sb-heading: #fff;
+  --sb-eyebrow: #9bb6f7;
+  --sb-muted: #a8b5d5;
+  --sb-label: #dbeafe;
+  --sb-edge: rgba(255, 255, 255, 0.12);
+  --sb-edge-side: transparent;
+
+  --sb-input-bg: rgba(15, 23, 42, 0.8);
+  --sb-input-text: #fff;
+  --sb-input-border: rgba(148, 163, 184, 0.4);
+
+  --sb-btn-bg: rgba(148, 163, 184, 0.14);
+  --sb-btn-hover-bg: rgba(148, 163, 184, 0.32);
+  --sb-btn-text: #edf3ff;
+
+  --sb-card-bg: rgba(30, 41, 59, 0.8);
+  --sb-card-border: rgba(148, 163, 184, 0.25);
+
+  --sb-item-bg: rgba(30, 41, 59, 0.5);
+  --sb-item-border: transparent;
+  --sb-item-hover-bg: rgba(51, 65, 85, 0.8);
+  --sb-item-active-bg: rgba(59, 130, 246, 0.2);
+  --sb-item-active-border: rgba(96, 165, 250, 0.7);
+  --sb-delete-hover-bg: rgba(239, 68, 68, 0.3);
+  --sb-delete-hover-text: #fff;
+
+  --sb-offline-bg: rgba(148, 163, 184, 0.2);
+  --sb-offline-text: #d9e3f7;
+  --sb-connected-bg: rgba(59, 130, 246, 0.16);
+  --sb-connected-text: #86efac;
+  --sb-ready-bg: rgba(59, 130, 246, 0.2);
+  --sb-ready-text: #bfdbfe;
+}
+
 .sidebar {
-  background: #111827;
-  color: #edf3ff;
+  background: var(--sb-bg);
+  color: var(--sb-text);
+  border-right: 1px solid var(--sb-edge-side);
   padding: 24px 20px;
   display: flex;
   flex-direction: column;
   gap: 20px;
   min-height: 0;
   overflow-y: auto;
-}
-
-.panel-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.eyebrow {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #9bb6f7;
-  margin: 0 0 4px;
-}
-
-.panel-header h1 {
-  margin: 0;
-  font-size: 2rem;
-  color: #fff;
-}
-
-.status-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 7px 10px;
-  border-radius: 999px;
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.status-offline {
-  background: rgba(148, 163, 184, 0.2);
-  color: #d9e3f7;
-}
-
-.status-connected {
-  background: rgba(59, 130, 246, 0.16);
-  color: #86efac;
-}
-
-.status-ready {
-  background: rgba(59, 130, 246, 0.2);
-  color: #bfdbfe;
 }
 
 .login-form,
@@ -69,18 +97,18 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  color: #dbeafe;
+  color: var(--sb-label);
   font-size: 0.8rem;
 }
 
 .login-form input,
 .contact-form input {
   width: 100%;
-  border: 1px solid rgba(148, 163, 184, 0.4);
+  border: 1px solid var(--sb-input-border);
   border-radius: 12px;
   padding: 12px 14px;
-  background: rgba(15, 23, 42, 0.8);
-  color: #fff;
+  background: var(--sb-input-bg);
+  color: var(--sb-input-text);
   font-size: 0.95rem;
 }
 
@@ -88,11 +116,6 @@
 .contact-form input:focus {
   outline: 2px solid rgba(96, 165, 250, 0.6);
   outline-offset: 2px;
-}
-
-.login-actions {
-  display: flex;
-  gap: 10px;
 }
 
 .primary-button,
@@ -121,321 +144,18 @@
 }
 
 .secondary-button {
-  background: rgba(148, 163, 184, 0.14);
-  color: #edf3ff;
+  background: var(--sb-btn-bg);
+  color: var(--sb-btn-text);
 }
 
 @media (max-width: 860px) {
   .sidebar {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-  }
-
-  .login-actions {
-    flex-direction: column;
+    border-right: none;
+    border-bottom: 1px solid var(--sb-edge);
   }
 
   .primary-button,
   .secondary-button {
     width: 100%;
-  }
-}
-.token-field {
-  display: flex;
-  gap: 8px;
-}
-
-.token-field input {
-  flex: 1;
-  min-width: 0;
-}
-
-.token-toggle {
-  border: 1px solid rgba(148, 163, 184, 0.4);
-  border-radius: 12px;
-  padding: 0 12px;
-  background: rgba(148, 163, 184, 0.14);
-  color: #edf3ff;
-  font-size: 0.8rem;
-  cursor: pointer;
-}
-
-.connection-card {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  padding: 14px 16px;
-  border-radius: 14px;
-  background: rgba(30, 41, 59, 0.8);
-  border: 1px solid rgba(148, 163, 184, 0.25);
-}
-
-.connection-card-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.connection-card-row div {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-}
-
-.connection-card-row span {
-  color: #a8b5d5;
-  font-size: 0.8rem;
-}
-
-.state-dot {
-  flex: none;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: #94a3b8;
-}
-
-.state-dot.state-authorized {
-  background: #22c55e;
-}
-
-.state-dot.state-starting,
-.state-dot.state-sleepMode,
-.state-dot.state-yellowCard {
-  background: #eab308;
-}
-
-.state-dot.state-notAuthorized,
-.state-dot.state-blocked {
-  background: #ef4444;
-}
-
-.chat-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  min-height: 0;
-}
-
-.chat-list-title {
-  color: #a8b5d5;
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.chat-list ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  max-height: 280px;
-  overflow-y: auto;
-}
-
-.chat-list li {
-  position: relative;
-  display: flex;
-}
-
-.chat-list-item {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 36px 10px 10px;
-  border: 1px solid transparent;
-  border-radius: 12px;
-  background: rgba(30, 41, 59, 0.5);
-  color: #edf3ff;
-  text-align: left;
-  cursor: pointer;
-}
-
-.chat-list-item:hover,
-.chat-list-item:focus-visible {
-  background: rgba(51, 65, 85, 0.8);
-}
-
-.chat-list-item.active {
-  border-color: rgba(96, 165, 250, 0.7);
-  background: rgba(59, 130, 246, 0.2);
-}
-
-.chat-list-avatar {
-  flex: none;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  background: #dbeafe;
-  color: #1d4ed8;
-  font-size: 0.7rem;
-  font-weight: 800;
-}
-
-.chat-list-body {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-.chat-list-body strong,
-.chat-list-body small {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.chat-list-body small {
-  color: #a8b5d5;
-}
-
-.chat-list-delete {
-  position: absolute;
-  top: 50%;
-  right: 8px;
-  transform: translateY(-50%);
-  width: 24px;
-  height: 24px;
-  border: none;
-  border-radius: 50%;
-  background: transparent;
-  color: #a8b5d5;
-  font-size: 1.1rem;
-  line-height: 1;
-  cursor: pointer;
-}
-
-.chat-list-delete:hover,
-.chat-list-delete:focus-visible {
-  background: rgba(239, 68, 68, 0.3);
-  color: #fff;
-}
-
-.panel-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.theme-toggle {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: rgba(148, 163, 184, 0.16);
-  color: #edf3ff;
-  font-size: 1rem;
-  cursor: pointer;
-}
-
-.theme-toggle:hover,
-.theme-toggle:focus-visible {
-  background: rgba(148, 163, 184, 0.32);
-}
-
-.field-hint {
-  margin-top: -6px;
-  color: #a8b5d5;
-  font-size: 0.75rem;
-}
-
-/* Светлая тема: светлый сайдбар */
-:root:not([data-theme='dark']) .sidebar {
-  background: #f8fafc;
-  color: #0f172a;
-  border-right: 1px solid rgba(15, 23, 42, 0.08);
-}
-
-:root:not([data-theme='dark']) .eyebrow {
-  color: #2563eb;
-}
-
-:root:not([data-theme='dark']) .panel-header h1 {
-  color: #0f172a;
-}
-
-:root:not([data-theme='dark']) .status-offline {
-  background: rgba(100, 116, 139, 0.15);
-  color: #475569;
-}
-
-:root:not([data-theme='dark']) .status-connected {
-  background: rgba(34, 197, 94, 0.16);
-  color: #15803d;
-}
-
-:root:not([data-theme='dark']) .status-ready {
-  background: rgba(59, 130, 246, 0.14);
-  color: #1d4ed8;
-}
-
-:root:not([data-theme='dark']) .login-form label,
-:root:not([data-theme='dark']) .contact-form label {
-  color: #334155;
-}
-
-:root:not([data-theme='dark']) .login-form input,
-:root:not([data-theme='dark']) .contact-form input {
-  background: #fff;
-  color: #0f172a;
-  border-color: rgba(148, 163, 184, 0.6);
-}
-
-:root:not([data-theme='dark']) .secondary-button,
-:root:not([data-theme='dark']) .token-toggle,
-:root:not([data-theme='dark']) .theme-toggle {
-  background: rgba(15, 23, 42, 0.06);
-  color: #1f2937;
-}
-
-:root:not([data-theme='dark']) .theme-toggle:hover,
-:root:not([data-theme='dark']) .theme-toggle:focus-visible {
-  background: rgba(15, 23, 42, 0.14);
-}
-
-:root:not([data-theme='dark']) .connection-card {
-  background: #fff;
-  border-color: rgba(15, 23, 42, 0.1);
-}
-
-:root:not([data-theme='dark']) .connection-card-row span,
-:root:not([data-theme='dark']) .chat-list-title,
-:root:not([data-theme='dark']) .chat-list-body small,
-:root:not([data-theme='dark']) .chat-list-delete,
-:root:not([data-theme='dark']) .field-hint {
-  color: #64748b;
-}
-
-:root:not([data-theme='dark']) .chat-list-item {
-  background: #fff;
-  color: #0f172a;
-  border-color: rgba(15, 23, 42, 0.06);
-}
-
-:root:not([data-theme='dark']) .chat-list-item:hover,
-:root:not([data-theme='dark']) .chat-list-item:focus-visible {
-  background: #eef2f7;
-}
-
-:root:not([data-theme='dark']) .chat-list-item.active {
-  border-color: rgba(59, 130, 246, 0.6);
-  background: rgba(59, 130, 246, 0.12);
-}
-
-:root:not([data-theme='dark']) .chat-list-delete:hover,
-:root:not([data-theme='dark']) .chat-list-delete:focus-visible {
-  background: rgba(239, 68, 68, 0.15);
-  color: #b91c1c;
-}
-
-@media (max-width: 860px) {
-  :root:not([data-theme='dark']) .sidebar {
-    border-right: none;
-    border-bottom: 1px solid rgba(15, 23, 42, 0.08);
   }
 }

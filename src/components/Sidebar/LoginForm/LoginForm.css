@@ -1,0 +1,30 @@
+.login-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.token-field {
+  display: flex;
+  gap: 8px;
+}
+
+.token-field input {
+  flex: 1;
+  min-width: 0;
+}
+
+.token-toggle {
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  border-radius: 12px;
+  padding: 0 12px;
+  background: var(--sb-btn-bg);
+  color: var(--sb-btn-text);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+@media (max-width: 860px) {
+  .login-actions {
+    flex-direction: column;
+  }
+}

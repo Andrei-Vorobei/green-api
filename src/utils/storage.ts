@@ -63,7 +63,7 @@ export const saveStoredChats = (chats: ChatsMap): void => {
   try {
     window.localStorage.setItem(CHATS_KEY, JSON.stringify(trimmed));
   } catch {
-    // переполнение хранилища не должно ломать приложение
+    console.warn('Хранилище localStorage переполнено. Освободите место перед сохранением новых данных.');
   }
 };
 
